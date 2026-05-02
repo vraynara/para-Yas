@@ -1,72 +1,83 @@
 <!DOCTYPE html>
-<html lang="br">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>yassssss</title>
+<meta charset="UTF-8">
+<title>Love</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  overflow: hidden;
+}
+
+/* Container */
+.container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* Texto */
+.word {
+  position: absolute;
+  color: #f3f177;
+  font-size: 14px;
+  font-family: Arial;
+  text-shadow: 0 0 5px #ff8fb1, 0 0 10px #f3f177, 0 0 20px #f3f177;
+  white-space: nowrap;
+}
+</style>
 </head>
-<body>{
-    margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #111;
-      font-family: Arial, sans-serif;
-    }
 
-    .heart {
-      position: relative;
-      width: 150px;
-      height: 150px;
-      background: red;
-      transform: rotate(-45deg);
-      animation: pulse 1s infinite;
-    }
-
-    .heart::before,
-    .heart::after {
-      content: "";
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      background: red;
-      border-radius: 50%;
-    }
-
-    .heart::before {
-      top: -75px;
-      left: 0;
-    }
-
-    .heart::after {
-      left: 75px;
-      top: 0;
-    }
-
-    .text {
-      position: absolute;
-      color: white;
-      font-size: 20px;
-      transform: rotate(45deg);
-      text-align: center;
-      width: 100%;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(45deg);
-    }
-
-    @keyframes pulse {
-      0% { transform: rotate(-45deg) scale(1); }
-      50% { transform: rotate(-45deg) scale(1.1); }
-      100% { transform: rotate(-45deg) scale(1); }
-    }
-  </style>
-</head>
 <body>
 
-  <div class="heart">
-    <div class="text">I love you</div>
-  </div>
+<div class="container" id="heart"></div>
+
+<script>
+const container = document.getElementById("heart");
+
+let words = [];
+let total = 250;
+
+// Criar palavras
+for (let i = 0; i < total; i++) {
+  let span = document.createElement("span");
+  span.innerText = "I love you";
+  span.classList.add("word");
+
+  container.appendChild(span);
+  words.push({ el: span, t: Math.random() * Math.PI * 2 });
+}
+
+// Função animada
+function animate() {
+  words.forEach((w, i) => {
+    w.t += 0.02;
+
+    let t = w.t + i * 0.02;
+
+    // Fórmula do coração ❤️
+    let x = 16 * Math.pow(Math.sin(t), 3);
+    let y = 13 * Math.cos(t)
+          - 5 * Math.cos(2*t)
+          - 2 * Math.cos(3*t)
+          - Math.cos(4*t);
+
+    let scale = 15;
+
+    let posX = window.innerWidth / 2 + x * scale;
+    let posY = window.innerHeight / 2 - y * scale;
+
+    w.el.style.left = posX + "px";
+    w.el.style.top = posY + "px";
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
 </body>
 </html>
